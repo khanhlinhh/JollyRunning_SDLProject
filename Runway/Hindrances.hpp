@@ -1,6 +1,7 @@
 #ifndef Hindrances_hpp
 #define Hindrances_hpp
 #include "WindowFunctions.h"
+#include "Player.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
@@ -18,11 +19,11 @@ public:
     SDL_Rect animalClipsRect;
     SDL_Rect animalClipsPos;
     int textureWidth, textureHeight;
-    int velocity;
+    int velocity = 2;
     
     void Appear();
-    int GetY();
+    int GetAnimalY();
+    bool checkCollision(GameObject &Character);
     void render_Copy();
-    
 };
 #endif

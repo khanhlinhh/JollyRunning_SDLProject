@@ -30,10 +30,16 @@ const int animalNumbers = 9;
 const int SIZE_ANIMALS = 150;
 
 const int animalWidth[animalNumbers] = {71,70,90,76,83,88,66,98,153};
-const int animalHeight[9] = {110,93,90,98,83,106,98,87,102};
+const int animalHeight[animalNumbers] = {110,93,90,98,83,106,98,87,102};
 
 //Toạ độ x xuất hiện animals
 const int numLine = 3;
-const int Line[numLine] = {80, 150, 215};
- 
+const int Line[numLine] = {75, 145, 210};
+
+//Toạ độ của score
+const int ScoreTextGetX = 180;
+const int ScoreTextGetY = 10;
+const int ScoreGetX = 280;
+const int ScoreGetY = 10;
 #endif
+

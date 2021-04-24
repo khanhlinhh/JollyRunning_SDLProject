@@ -1,9 +1,10 @@
-#include "GameObject.hpp"
+#include "Player.hpp"
 #include "TextureManager.hpp"
 #include "WindowFunctions.h"
 
 using namespace std;
 
+GameObject::GameObject(){}
 GameObject::~GameObject(){}
 
 GameObject::GameObject(const char* texturesheet, SDL_Renderer* ren)
@@ -49,7 +50,6 @@ void GameObject::goRight()
         charPosition.x = 240;
     }
 }
-
 
 void GameObject::Animation(int &frameTime)
 {

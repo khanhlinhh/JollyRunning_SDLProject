@@ -1,5 +1,6 @@
 #include "Hindrances.hpp"
 #include "TextureManager.hpp"
+#include "Player.hpp"
 #include "WindowFunctions.h"
 #include "Game.hpp"
 #include <vector>
@@ -26,13 +27,22 @@ Animals::Animals(SDL_Renderer* ren, SDL_Texture* Texture, int randAnimal): rende
 
 void Animals::Appear()
 {
-    velocity = 2 ;
     animalClipsPos.y += velocity;
 }
 
-int Animals::GetY ()
+/*int Animals::GetAnimalY ()
 {
     return animalClipsPos.y;
+}*/
+
+bool Animals::checkCollision(GameObject &Character)
+{
+    if (animalClipsPos.y == Character.charPosition.y && (Character.charPosition.x + SIZE_CHARACTER > animalClipsPos.x || Character.charPosition.x < animalClipsPos.x + textureWidth))
+    {
+        cout << "Oops" << endl;
+        return true;
+    }
+    return false;
 }
 
 void Animals::render_Copy()

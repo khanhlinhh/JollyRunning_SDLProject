@@ -1,10 +1,11 @@
-#ifndef GameObject_hpp
-#define GameObject_hpp
+#ifndef Player_hpp
+#define Player_hpp
 
 #include <iostream>
 #include "Game.hpp"
 struct GameObject
 {
+    GameObject();
     GameObject(const char* texturesheet, SDL_Renderer* ren);
     ~GameObject();
     

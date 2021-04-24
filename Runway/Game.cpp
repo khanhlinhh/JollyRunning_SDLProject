@@ -2,22 +2,24 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <cstdlib>
 #include <ctime>
 #include <vector>
 #include "WindowFunctions.h"
 #include "TextureManager.hpp"
-#include "GameObject.hpp"
+#include "Player.hpp"
 #include "ScrollingBackground.hpp"
 #include "Hindrances.hpp"
+#include "Score.hpp"
 
 using namespace std;
 
-Background* TBackground;
-GameObject* TCharacter;
-
-//Animals *animal1, *animal2, *animal3, *animal4, *animal5, *animal6, *animal7, *animal8, *animal9;
+Background TBackground;
+GameObject TCharacter;
 SDL_Texture *Animal1, *Animal2, *Animal3, *Animal4, *Animal5, *Animal6, *Animal7, *Animal8, *Animal9;
+Score score;
+
 int randAnimal;
 
 int frameTime = 0;
@@ -29,6 +31,10 @@ Game::~Game()
 
 void Game::init (const char *title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
+    if (TTF_Init() < 0)
+    {
+        cout << "Error init TTF: " << TTF_GetError() << endl;
+    }
     int flags = 0;
     if (fullscreen)
     {
@@ -49,8 +55,8 @@ void Game::init (const char *title, int xpos, int ypos, int width, int height, b
         isRunning = false;
      }
 
-    TBackground = new Background("/Users/timmy/Desktop/Runway/Image/background.png", renderer);
-    TCharacter = new GameObject("/Users/timmy/Desktop/Runway/Image/character.png", renderer);
+    TBackground = Background("/Users/timmy/Desktop/Runway/Image/background.png", renderer);
+    TCharacter = GameObject("/Users/timmy/Desktop/Runway/Image/character.png", renderer);
     Animal1 = TextureManager::LoadTexture(texturesheet1, renderer);
     Animal2 = TextureManager::LoadTexture(texturesheet2, renderer);
     Animal3 = TextureManager::LoadTexture(texturesheet3, renderer);
@@ -60,6 +66,8 @@ void Game::init (const char *title, int xpos, int ypos, int width, int height, b
     Animal7 = TextureManager::LoadTexture(texturesheet7, renderer);
     Animal8 = TextureManager::LoadTexture(texturesheet8, renderer);
     Animal9 = TextureManager::LoadTexture(texturesheet9, renderer);
+    
+    score = Score (renderer);
 }
 
 void Game::handleEvents()
@@ -75,28 +83,40 @@ void Game::handleEvents()
     }
     if (keyState[SDL_SCANCODE_LEFT])
     {
-            TCharacter->goLeft();
+            TCharacter.goLeft();
     }
     else
     {
         if (keyState[SDL_SCANCODE_RIGHT])
         {
-            TCharacter->goRight();
+            TCharacter.goRight();
         }
         else
         {
-            TCharacter->stay();
+            TCharacter.stay();
         }
     }
-    TCharacter->Animation(frameTime);
+    TCharacter.Animation(frameTime);
 }
 vector<Animals> TAnimal;
 
 void Game::update()
 {
+    score.scoregame++;
     count++;
-    if (count == 120)
+    if (level == 12)
     {
+        level = 1;
+        temp -= 5;
+        for (int i = 0; i < TAnimal.size(); i++)
+        {
+            TAnimal[i].velocity++;
+        }
+        TBackground.velocityBackground++;
+    }
+    if (count == temp)
+    {
+        level++;
         Animals ani;
         randAnimal = rand() % animalNumbers;
         switch (randAnimal)
@@ -132,14 +152,17 @@ void Game::update()
         TAnimal.push_back(ani);
         count = 0;
     }
-        //TAnimal->Appear();
+
     for (int i = 0 ; i < TAnimal.size(); i++)
     {
         TAnimal[i].Appear();
-        TAnimal[i].GetY();
+        TAnimal[i].checkCollision(TCharacter);
     }
-    cout << TAnimal.size() << endl;
-    if (!TAnimal.empty() && TAnimal[0].GetY() > SCREEN_HEIGHT)
+    if (count % 2 == 0)
+    {
+    score.GetCurrentScore(renderer);
+    }
+    if (!TAnimal.empty() && TAnimal[0].animalClipsPos.y > SCREEN_HEIGHT)
     {
         TAnimal.erase(TAnimal.begin());
     }
@@ -148,19 +171,23 @@ void Game::update()
 void Game::render()
 {
     SDL_RenderClear(renderer);
-    TBackground->scrollingBackground(renderer, NULL);
-    TCharacter->renderCopy();
+    TBackground.scrollingBackground(renderer, NULL);
+    TCharacter.renderCopy();
     for (int i = 0 ; i < TAnimal.size(); i++)
     {
-        auto temp  = TAnimal[i];
-        temp.render_Copy();
+        TAnimal[i].render_Copy();
+        //temp.render_Copy();
     }
+    score.renderCopyText();
     SDL_RenderPresent(renderer);
 }
 void Game::clean()
 {
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
+    window = NULL;
+    renderer = NULL;
+    TTF_Quit();
     SDL_Quit();
     cout << "Game cleaned!" << endl;
 }
