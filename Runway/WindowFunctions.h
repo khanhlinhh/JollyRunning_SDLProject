@@ -9,7 +9,7 @@
 using namespace std;
 
 const int SCREEN_WIDTH = 358;
-const int SCREEN_HEIGHT = 747;
+const int SCREEN_HEIGHT = 747; // 747
 
 //Size của nhân vật
 const int characterWidth = 120;
@@ -41,5 +41,12 @@ const int ScoreTextGetX = 180;
 const int ScoreTextGetY = 10;
 const int ScoreGetX = 280;
 const int ScoreGetY = 10;
+
+const int scorelost = 50;
+
+const int logoSizeWidth = 150;
+const int logoSizeHeight = 150;
+const int LogoY = 150;
+
 #endif
 

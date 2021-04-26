@@ -23,7 +23,7 @@ int main (int argc, const char* argv[])
     Uint32 frameStart;
     int frameTime;
 
-    game.init("RUNWAY", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, true);
+    game.init("JollyRunning", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, true);
     
     while (game.running())
     {

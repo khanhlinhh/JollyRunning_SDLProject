@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A536411326351F2200691BA9 /* MenuGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A536411126351F2200691BA9 /* MenuGame.cpp */; };
 		A5544A472631623800CF07C2 /* Score.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5544A452631623800CF07C2 /* Score.cpp */; };
 		A55641462625884500E41C19 /* Hindrances.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A55641442625884500E41C19 /* Hindrances.cpp */; };
 		A56D41472630878000A67F61 /* libSDL2_ttf.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A56D41462630878000A67F61 /* libSDL2_ttf.dylib */; };
@@ -48,6 +49,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A536411126351F2200691BA9 /* MenuGame.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MenuGame.cpp; sourceTree = "<group>"; };
+		A536411226351F2200691BA9 /* MenuGame.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MenuGame.hpp; sourceTree = "<group>"; };
 		A5544A452631623800CF07C2 /* Score.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Score.cpp; sourceTree = "<group>"; };
 		A5544A462631623800CF07C2 /* Score.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Score.hpp; sourceTree = "<group>"; };
 		A55641442625884500E41C19 /* Hindrances.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Hindrances.cpp; sourceTree = "<group>"; };
@@ -108,6 +111,8 @@
 				A5FE2ECF261F5FD000F7E265 /* WindowFunctions.h */,
 				A5FE2ECA261F5F6000F7E265 /* Game.hpp */,
 				A5FE2EC9261F5F6000F7E265 /* Game.cpp */,
+				A536411226351F2200691BA9 /* MenuGame.hpp */,
+				A536411126351F2200691BA9 /* MenuGame.cpp */,
 				A5FE2ED1261F5FF300F7E265 /* Player.hpp */,
 				A5FE2ED0261F5FF300F7E265 /* Player.cpp */,
 				A55641452625884500E41C19 /* Hindrances.hpp */,
@@ -193,6 +198,7 @@
 				A5D21C312622AF1100F96186 /* ScrollingBackground.cpp in Sources */,
 				A55641462625884500E41C19 /* Hindrances.cpp in Sources */,
 				A5FE2EBA261F5ED500F7E265 /* main.cpp in Sources */,
+				A536411326351F2200691BA9 /* MenuGame.cpp in Sources */,
 				A5FE2ECB261F5F6000F7E265 /* Game.cpp in Sources */,
 				A5FE2ECE261F5FA400F7E265 /* TextureManager.cpp in Sources */,
 				A5544A472631623800CF07C2 /* Score.cpp in Sources */,

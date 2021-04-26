@@ -11,13 +11,18 @@
 #include "Player.hpp"
 #include "ScrollingBackground.hpp"
 #include "Hindrances.hpp"
+#include "MenuGame.hpp"
 #include "Score.hpp"
 
 using namespace std;
 
 Background TBackground;
 GameObject TCharacter;
+Menu menuGame;
+
+vector<Animals*> TAnimal;
 SDL_Texture *Animal1, *Animal2, *Animal3, *Animal4, *Animal5, *Animal6, *Animal7, *Animal8, *Animal9;
+
 Score score;
 
 int randAnimal;
@@ -35,6 +40,7 @@ void Game::init (const char *title, int xpos, int ypos, int width, int height, b
     {
         cout << "Error init TTF: " << TTF_GetError() << endl;
     }
+    
     int flags = 0;
     if (fullscreen)
     {
@@ -56,6 +62,7 @@ void Game::init (const char *title, int xpos, int ypos, int width, int height, b
      }
 
     TBackground = Background("/Users/timmy/Desktop/Runway/Image/background.png", renderer);
+    menuGame = Menu(renderer);
     TCharacter = GameObject("/Users/timmy/Desktop/Runway/Image/character.png", renderer);
     Animal1 = TextureManager::LoadTexture(texturesheet1, renderer);
     Animal2 = TextureManager::LoadTexture(texturesheet2, renderer);
@@ -67,7 +74,7 @@ void Game::init (const char *title, int xpos, int ypos, int width, int height, b
     Animal8 = TextureManager::LoadTexture(texturesheet8, renderer);
     Animal9 = TextureManager::LoadTexture(texturesheet9, renderer);
     
-    score = Score (renderer);
+    score = Score(renderer);
 }
 
 void Game::handleEvents()
@@ -98,71 +105,71 @@ void Game::handleEvents()
     }
     TCharacter.Animation(frameTime);
 }
-vector<Animals> TAnimal;
 
 void Game::update()
 {
     score.scoregame++;
     count++;
-    if (level == 12)
+    if (count == 100)
     {
-        level = 1;
-        temp -= 5;
-        for (int i = 0; i < TAnimal.size(); i++)
-        {
-            TAnimal[i].velocity++;
-        }
-        TBackground.velocityBackground++;
-    }
-    if (count == temp)
-    {
-        level++;
-        Animals ani;
+        Animals *ani;
         randAnimal = rand() % animalNumbers;
         switch (randAnimal)
         {
             case 0:
-                ani = Animals(renderer, Animal1, randAnimal);
+                ani = new Animals(renderer, Animal1, randAnimal);
                 break;
             case 1:
-                ani = Animals(renderer, Animal2, randAnimal);
+                ani = new Animals(renderer, Animal2, randAnimal);
                 break;
             case 2:
-                ani = Animals(renderer, Animal3, randAnimal);
+                ani = new Animals(renderer, Animal3, randAnimal);
                 break;
             case 3:
-                ani = Animals(renderer, Animal4, randAnimal);
+                ani = new Animals(renderer, Animal4, randAnimal);
                 break;
             case 4:
-                ani = Animals(renderer, Animal5, randAnimal);
+                ani = new Animals(renderer, Animal5, randAnimal);
                 break;
             case 5:
-                ani = Animals(renderer, Animal6, randAnimal);
+                ani = new Animals(renderer, Animal6, randAnimal);
                 break;
             case 6:
-                ani = Animals(renderer, Animal7, randAnimal);
+                ani = new Animals(renderer, Animal7, randAnimal);
                 break;
             case 7:
-                ani =  Animals(renderer, Animal8, randAnimal);
+                ani = new Animals(renderer, Animal8, randAnimal);
                 break;
             case 8:
-                ani = Animals(renderer, Animal9, randAnimal);
+                ani = new Animals(renderer, Animal9, randAnimal);
                 break;
         }
         TAnimal.push_back(ani);
         count = 0;
+        level++;
+    }
+    
+    cout << TAnimal.size() <<endl;
+    if (level == temp)
+    {
+        level = 1;
+        TBackground.velocityBackground++;
     }
 
     for (int i = 0 ; i < TAnimal.size(); i++)
     {
-        TAnimal[i].Appear();
-        TAnimal[i].checkCollision(TCharacter);
+        //TAnimal[i].Appear(TBackground.velocityBackground);
+        TAnimal[i]->Appear(TBackground.velocityBackground);
+        if(TAnimal[i]->checkCollision(TCharacter))
+           {
+               score.scoregame -= scorelost;
+           }
     }
     if (count % 2 == 0)
     {
-    score.GetCurrentScore(renderer);
+        score.GetCurrentScore(renderer);
     }
-    if (!TAnimal.empty() && TAnimal[0].animalClipsPos.y > SCREEN_HEIGHT)
+    if (!TAnimal.empty() && TAnimal[0]->animalClipsPos.y > SCREEN_HEIGHT)
     {
         TAnimal.erase(TAnimal.begin());
     }
@@ -175,9 +182,9 @@ void Game::render()
     TCharacter.renderCopy();
     for (int i = 0 ; i < TAnimal.size(); i++)
     {
-        TAnimal[i].render_Copy();
-        //temp.render_Copy();
+        TAnimal[i]->render_Copy();
     }
+    menuGame.RenderMenu();
     score.renderCopyText();
     SDL_RenderPresent(renderer);
 }

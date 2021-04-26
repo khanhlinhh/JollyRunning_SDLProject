@@ -15,9 +15,9 @@ GameObject::GameObject(const char* texturesheet, SDL_Renderer* ren)
     frameWidth = textureWidth/3;
     frameHeight = textureHeight/3;
     
-    charPosition.x = (SCREEN_WIDTH - charPosition.w)/2 - 30;
     charPosition.y = STARTING_POINT;
     charPosition.w = charPosition.h = SIZE_CHARACTER;
+    charPosition.x = (SCREEN_WIDTH - charPosition.w)/2;
     charRect.x = charRect.y = GO_STRAIGHT;
     charRect.w = frameWidth;
     charRect.h = frameHeight;

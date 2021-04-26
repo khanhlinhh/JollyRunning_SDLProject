@@ -1,4 +1,5 @@
 #include "Hindrances.hpp"
+#include "ScrollingBackground.hpp"
 #include "TextureManager.hpp"
 #include "Player.hpp"
 #include "WindowFunctions.h"
@@ -11,11 +12,11 @@ using namespace std;
 Animals::Animals(){}
 Animals::~Animals(){}
 
-Animals::Animals(SDL_Renderer* ren, SDL_Texture* Texture, int randAnimal): renderer(ren), animalText(Texture)
+Animals::Animals(SDL_Renderer* ren, SDL_Texture* Texture, int randAnimal):renderer(ren), animalText(Texture)
 {
     int randLine = rand() % numLine;
-//    renderer = ren;
-//    animalText = Texture;
+    //renderer = ren;
+    //animalText = Texture;
     SDL_QueryTexture(animalText, NULL, NULL, &textureWidth, &textureHeight);
     animalClipsRect.w = textureWidth;
     animalClipsRect.h = textureHeight;
@@ -25,7 +26,7 @@ Animals::Animals(SDL_Renderer* ren, SDL_Texture* Texture, int randAnimal): rende
     animalClipsPos.y = -textureHeight;
 }
 
-void Animals::Appear()
+void Animals::Appear(int &velocity)
 {
     animalClipsPos.y += velocity;
 }
