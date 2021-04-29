@@ -20,14 +20,12 @@ Background TBackground;
 GameObject TCharacter;
 Menu menuGame;
 
-vector<Animals*> TAnimal;
+vector<Animals> TAnimal;
 SDL_Texture *Animal1, *Animal2, *Animal3, *Animal4, *Animal5, *Animal6, *Animal7, *Animal8, *Animal9;
 
 Score score;
 
 int randAnimal;
-
-int frameTime = 0;
 
 Game::Game()
 {}
@@ -74,7 +72,18 @@ void Game::init (const char *title, int xpos, int ypos, int width, int height, b
     Animal8 = TextureManager::LoadTexture(texturesheet8, renderer);
     Animal9 = TextureManager::LoadTexture(texturesheet9, renderer);
     
+    menuGame.RenderMenu();
     score = Score(renderer);
+}
+
+void Game::Timers()
+{
+    frameTime = SDL_GetTicks() - frameStart;
+            
+    if (frameDelay > frameTime)
+    {
+        SDL_Delay(frameDelay-frameTime);
+    }
 }
 
 void Game::handleEvents()
@@ -88,9 +97,13 @@ void Game::handleEvents()
             isRunning = false;
             break;
     }
+    if (keyState[SDL_SCANCODE_S])
+    {
+        startGame = true;
+    }
     if (keyState[SDL_SCANCODE_LEFT])
     {
-            TCharacter.goLeft();
+        TCharacter.goLeft();
     }
     else
     {
@@ -103,75 +116,88 @@ void Game::handleEvents()
             TCharacter.stay();
         }
     }
-    TCharacter.Animation(frameTime);
+    TCharacter.Animation();
 }
 
 void Game::update()
 {
-    score.scoregame++;
-    count++;
-    if (count == 100)
+    if (startGame && gameOver == false)
     {
-        Animals *ani;
-        randAnimal = rand() % animalNumbers;
-        switch (randAnimal)
+        menuGame.destroyStart();
+        count++;
+        if (count == mark)
         {
-            case 0:
-                ani = new Animals(renderer, Animal1, randAnimal);
-                break;
-            case 1:
-                ani = new Animals(renderer, Animal2, randAnimal);
-                break;
-            case 2:
-                ani = new Animals(renderer, Animal3, randAnimal);
-                break;
-            case 3:
-                ani = new Animals(renderer, Animal4, randAnimal);
-                break;
-            case 4:
-                ani = new Animals(renderer, Animal5, randAnimal);
-                break;
-            case 5:
-                ani = new Animals(renderer, Animal6, randAnimal);
-                break;
-            case 6:
-                ani = new Animals(renderer, Animal7, randAnimal);
-                break;
-            case 7:
-                ani = new Animals(renderer, Animal8, randAnimal);
-                break;
-            case 8:
-                ani = new Animals(renderer, Animal9, randAnimal);
-                break;
+            Animals ani;
+            randAnimal = rand() % animalNumbers;
+            switch (randAnimal)
+            {
+                case 0:
+                    ani = Animals(renderer, Animal1, randAnimal);
+                    break;
+                case 1:
+                    ani = Animals(renderer, Animal2, randAnimal);
+                    break;
+                case 2:
+                    ani = Animals(renderer, Animal3, randAnimal);
+                    break;
+                case 3:
+                    ani = Animals(renderer, Animal4, randAnimal);
+                    break;
+                case 4:
+                    ani = Animals(renderer, Animal5, randAnimal);
+                    break;
+                case 5:
+                    ani = Animals(renderer, Animal6, randAnimal);
+                    break;
+                case 6:
+                    ani = Animals(renderer, Animal7, randAnimal);
+                    break;
+                case 7:
+                    ani = Animals(renderer, Animal8, randAnimal);
+                    break;
+                case 8:
+                    ani = Animals(renderer, Animal9, randAnimal);
+                    break;
+            }
+            TAnimal.push_back(ani);
+            count = 0;
+            level++;
         }
-        TAnimal.push_back(ani);
-        count = 0;
-        level++;
-    }
-    
-    cout << TAnimal.size() <<endl;
-    if (level == temp)
-    {
-        level = 1;
-        TBackground.velocityBackground++;
-    }
-
-    for (int i = 0 ; i < TAnimal.size(); i++)
-    {
-        //TAnimal[i].Appear(TBackground.velocityBackground);
-        TAnimal[i]->Appear(TBackground.velocityBackground);
-        if(TAnimal[i]->checkCollision(TCharacter))
-           {
-               score.scoregame -= scorelost;
-           }
-    }
-    if (count % 2 == 0)
-    {
-        score.GetCurrentScore(renderer);
-    }
-    if (!TAnimal.empty() && TAnimal[0]->animalClipsPos.y > SCREEN_HEIGHT)
-    {
-        TAnimal.erase(TAnimal.begin());
+        if (level == temp)
+        {
+            mark--;
+            if (mark < 40) mark = 40;
+            level = 1;
+            TBackground.velocityBackground++;
+            if (TBackground.velocityBackground == maxSpeed)
+            {
+                TBackground.velocityBackground = maxSpeed;
+            }
+        }
+        
+        for (int i = 0 ; i < TAnimal.size(); i++)
+        {
+            //TAnimal[i].Appear(TBackground.velocityBackground);
+            TAnimal[i].Appear(TBackground.velocityBackground);
+            if(TAnimal[i].checkCollision(TCharacter))
+            {
+                score.scoregame -= scorelost;
+                score.GetCurrentLives();
+                if (score.lives < 0)
+                {
+                    gameOver = true;
+                }
+            }
+        }
+        if (count % 2 == 0 && gameOver == false)
+        {
+            score.scoregame++;
+            score.GetCurrentScore(renderer);
+        }
+        if (!TAnimal.empty() && TAnimal[0].animalClipsPos.y > SCREEN_HEIGHT)
+        {
+            TAnimal.erase(TAnimal.begin());
+        }
     }
 }
 
@@ -179,13 +205,21 @@ void Game::render()
 {
     SDL_RenderClear(renderer);
     TBackground.scrollingBackground(renderer, NULL);
-    TCharacter.renderCopy();
-    for (int i = 0 ; i < TAnimal.size(); i++)
+    if (!TAnimal.empty())
     {
-        TAnimal[i]->render_Copy();
+        for (int i = 0 ; i < TAnimal.size(); i++)
+        {
+            TAnimal[i].render_Copy();
+        }
     }
+    TCharacter.renderCopy();
     menuGame.RenderMenu();
+    if (gameOver == true)
+    {
+        menuGame.RenderGameOver();
+    }
     score.renderCopyText();
+    score.RenderCopyScore();
     SDL_RenderPresent(renderer);
 }
 void Game::clean()

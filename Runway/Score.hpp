@@ -11,18 +11,27 @@ struct Score
     ~Score();
     
     int scoregame = 0;
+    int lives = 3;
     TTF_Font *Font;
     SDL_Color color = {255, 255, 255, 255};
+    SDL_Surface *livesSurface;
+    SDL_Surface *livesCountSurface;
     SDL_Surface *textSurface;
     SDL_Surface *scoreSurface;
+    SDL_Texture *TLives;
+    SDL_Texture *TLivesCount;
     SDL_Texture *Text;
     SDL_Texture *TCurrentScore;
     SDL_Renderer *renderer;
     SDL_Rect textRect;
+    SDL_Rect livesRect;
+    SDL_Rect livescountRect;
     SDL_Rect scoreRect;
     
     void GetCurrentScore(SDL_Renderer *render);
+    void GetCurrentLives();
     void renderCopyText();
+    void RenderCopyScore();
 };
 
 #endif

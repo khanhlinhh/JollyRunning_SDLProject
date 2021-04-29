@@ -17,13 +17,9 @@ Animals::Animals(SDL_Renderer* ren, SDL_Texture* Texture, int randAnimal):render
     int randLine = rand() % numLine;
     //renderer = ren;
     //animalText = Texture;
-    SDL_QueryTexture(animalText, NULL, NULL, &textureWidth, &textureHeight);
-    animalClipsRect.w = textureWidth;
-    animalClipsRect.h = textureHeight;
-    animalClipsPos.w = animalWidth[randAnimal];
-    animalClipsPos.h = animalHeight[randAnimal];
+    SDL_QueryTexture(animalText, NULL, NULL, &animalClipsPos.w, &animalClipsPos.h);
     animalClipsPos.x = Line[randLine];
-    animalClipsPos.y = -textureHeight;
+    animalClipsPos.y = -animalClipsPos.h;
 }
 
 void Animals::Appear(int &velocity)
@@ -31,22 +27,31 @@ void Animals::Appear(int &velocity)
     animalClipsPos.y += velocity;
 }
 
-/*int Animals::GetAnimalY ()
-{
-    return animalClipsPos.y;
-}*/
-
 bool Animals::checkCollision(GameObject &Character)
 {
-    if (animalClipsPos.y == Character.charPosition.y && (Character.charPosition.x + SIZE_CHARACTER > animalClipsPos.x || Character.charPosition.x < animalClipsPos.x + textureWidth))
+    if (animalClipsPos.y + animalClipsPos.h == Character.charPosition.y + Character.frameHeight)
     {
-        cout << "Oops" << endl;
-        return true;
+        if (animalClipsPos.x >= Character.charPosition.x && animalClipsPos.x <= Character.charPosition.x + SIZE_CHARACTER)
+        {
+            cout << "Oops" << endl;
+            return true;
+        }
+        else if (animalClipsPos.x + animalClipsPos.w <= Character.charPosition.x + SIZE_CHARACTER && animalClipsPos.x + animalClipsPos.w >= Character.charPosition.x)
+        {
+            cout << "Oops" << endl;
+            return true;
+        }
     }
+
     return false;
 }
 
 void Animals::render_Copy()
 {
-    SDL_RenderCopy(renderer,animalText, &animalClipsRect, &animalClipsPos);
+    SDL_RenderCopy(renderer,animalText, NULL, &animalClipsPos);
+}
+
+void Animals::destroyAnimals()
+{
+    SDL_DestroyTexture(animalText);
 }

@@ -16,16 +16,13 @@ public:
     Animals(SDL_Renderer* ren, SDL_Texture* Texture, int randAnimal);
     ~Animals();
 
-    SDL_Renderer* renderer;
+    SDL_Renderer *renderer;
     SDL_Texture *animalText;
-    SDL_Rect animalClipsRect;
     SDL_Rect animalClipsPos;
-    int textureWidth, textureHeight;
-    //int velocity = 2;
     
     void Appear(int &velocity);
-    int GetAnimalY();
     bool checkCollision(GameObject &Character);
     void render_Copy();
+    void destroyAnimals();
 };
 #endif

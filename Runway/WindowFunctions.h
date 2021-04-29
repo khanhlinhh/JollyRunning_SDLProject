@@ -29,9 +29,6 @@ const int SIZE_CHARACTER = 80;
 const int animalNumbers = 9;
 const int SIZE_ANIMALS = 150;
 
-const int animalWidth[animalNumbers] = {71,70,90,76,83,88,66,98,153};
-const int animalHeight[animalNumbers] = {110,93,90,98,83,106,98,87,102};
-
 //Toạ độ x xuất hiện animals
 const int numLine = 3;
 const int Line[numLine] = {75, 145, 210};
@@ -47,6 +44,8 @@ const int scorelost = 50;
 const int logoSizeWidth = 150;
 const int logoSizeHeight = 150;
 const int LogoY = 150;
+
+const int maxSpeed = 8;
 
 #endif
 

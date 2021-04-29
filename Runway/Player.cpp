@@ -1,6 +1,7 @@
 #include "Player.hpp"
 #include "TextureManager.hpp"
 #include "WindowFunctions.h"
+#include "Game.hpp"
 
 using namespace std;
 
@@ -26,13 +27,13 @@ GameObject::GameObject(const char* texturesheet, SDL_Renderer* ren)
 void GameObject::stay()
 {
     velocity = 0;
-    charRect.x = charRect.y = GO_STRAIGHT;
+    charRect.y = GO_STRAIGHT;
 }
 
 void GameObject::goLeft()
 {
     velocity = -5;
-    charRect.x = charRect.y = GO_LEFT;
+    charRect.y = GO_LEFT;
     charPosition.x += velocity;
     if (charPosition.x < 50)
     {
@@ -43,18 +44,19 @@ void GameObject::goLeft()
 void GameObject::goRight()
 {
     velocity = 5;
-    charRect.x = charRect.y = GO_RIGHT;
+    charRect.y = GO_RIGHT;
     charPosition.x += velocity;
-    if (charPosition.x > 240)
+    if (charPosition.x > 230)
     {
-        charPosition.x = 240;
+        charPosition.x = 230;
     }
+    
 }
 
-void GameObject::Animation(int &frameTime)
+void GameObject::Animation()
 {
     frameTime++;
-    if (frameTime == 20)
+    if (frameTime >= 10)
     {
         frameTime = 0;
         charRect.x += frameWidth;

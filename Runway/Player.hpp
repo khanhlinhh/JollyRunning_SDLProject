@@ -15,13 +15,13 @@ struct GameObject
     SDL_Rect charPosition;
     int frameWidth, frameHeight;
     int textureWidth, textureHeight;
-    int frameTime = 0;
     int velocity = 0;
+    int frameTime = 0;
     
     void stay();
     void goLeft();
     void goRight();
-    void Animation(int &frameTime);
+    void Animation();
     
     void renderCopy();
 };

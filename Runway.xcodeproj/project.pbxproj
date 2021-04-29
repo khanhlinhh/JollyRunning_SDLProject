@@ -164,7 +164,7 @@
 		A5FE2EAE261F5ED500F7E265 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1240;
+				LastUpgradeCheck = 1250;
 				TargetAttributes = {
 					A5FE2EB5261F5ED500F7E265 = {
 						CreatedOnToolsVersion = 12.4;
@@ -322,6 +322,7 @@
 		A5FE2EBE261F5ED500F7E265 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				HEADER_SEARCH_PATHS = /usr/local/include;
@@ -338,6 +339,7 @@
 		A5FE2EBF261F5ED500F7E265 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				FRAMEWORK_SEARCH_PATHS = /Library/Frameworks;
 				HEADER_SEARCH_PATHS = /usr/local/include;

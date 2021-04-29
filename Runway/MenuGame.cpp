@@ -27,18 +27,24 @@ Menu::Menu(SDL_Renderer* ren)
     
     startGameSurface = TTF_RenderText_Solid(Font, "Jolly Running", color);
     TStartgame = SDL_CreateTextureFromSurface(ren, startGameSurface);
-    StartGameRect.x = 20;
     StartGameRect.y = 330;
     
     pressStartSurface = TTF_RenderText_Solid(Fontsmall, "Press S to start", color);
     TPressStart = SDL_CreateTextureFromSurface(ren, pressStartSurface);
-    pressStartRect.x = 110;
     pressStartRect.y = 400;
     
-    
+    GameOverSurface = TTF_RenderText_Solid(Font, "Game Over!", color);
+    TGameOver = SDL_CreateTextureFromSurface(ren, GameOverSurface);
     
     SDL_QueryTexture(TStartgame, NULL, NULL, &StartGameRect.w, &StartGameRect.h);
+    StartGameRect.x = (SCREEN_WIDTH - StartGameRect.w)/2;
+    
     SDL_QueryTexture(TPressStart, NULL, NULL, &pressStartRect.w, &pressStartRect.h);
+    pressStartRect.x = (SCREEN_WIDTH - pressStartRect.w)/2;
+    
+    SDL_QueryTexture(TGameOver, NULL, NULL, &GameOverRect.w, &GameOverRect.h);
+    GameOverRect.x = (SCREEN_WIDTH - GameOverRect.w)/2;
+    GameOverRect.y = (SCREEN_HEIGHT - GameOverRect.h)/2;
 }
 
 void Menu::RenderMenu()
@@ -46,4 +52,21 @@ void Menu::RenderMenu()
     SDL_RenderCopy(renderer, TLogo, &LogoRect, &LogoPos);
     SDL_RenderCopy(renderer, TStartgame, NULL, &StartGameRect);
     SDL_RenderCopy(renderer, TPressStart, NULL, &pressStartRect);
+}
+
+void Menu::RenderGameOver()
+{
+    SDL_RenderCopy(renderer, TGameOver, NULL, &GameOverRect);
+}
+
+void Menu::destroyStart()
+{
+    SDL_DestroyTexture(TLogo);
+    SDL_DestroyTexture(TStartgame);
+    SDL_DestroyTexture(TPressStart);
+}
+
+void Menu::destroyGameOver()
+{
+    SDL_DestroyTexture(TGameOver);
 }

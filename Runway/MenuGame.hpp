@@ -28,6 +28,9 @@ public:
     SDL_Surface *GameOverSurface;
     
     void RenderMenu();
+    void RenderGameOver();
+    void destroyStart();
+    void destroyGameOver();
 };
 
 #endif

@@ -14,12 +14,14 @@ public:
     
     void init (const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
     
+    void Timers();
     void handleEvents();
     void update();
     void render();
     void clean();
     
     bool running() {return isRunning;};
+    bool startGame = false;
     
     const char* texturesheet1 = "/Users/timmy/Desktop/Runway/Image/Hindrances/cat.png";
     const char* texturesheet2 = "/Users/timmy/Desktop/Runway/Image/Hindrances/pig.png";
@@ -32,10 +34,18 @@ public:
     const char* texturesheet9 = "/Users/timmy/Desktop/Runway/Image/Hindrances/cow.png";
     
 private:
-    int count = 50;
+    int count = 0;
     int level = 1;
     int temp = 12;
+    int mark = 80;
+
+    const int FPS = 60;
+    const int frameDelay = 1000/FPS;
+    Uint32 frameStart;
+    int frameTime;
+    
     bool isRunning;
+    bool gameOver = false;
     SDL_Window *window;
     SDL_Renderer *renderer;
     SDL_Surface *surface;
