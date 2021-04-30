@@ -29,7 +29,6 @@ struct Score
     SDL_Rect scoreRect;
     
     void GetCurrentScore(SDL_Renderer *render);
-    void GetCurrentLives();
     void renderCopyText();
     void RenderCopyScore();
 };

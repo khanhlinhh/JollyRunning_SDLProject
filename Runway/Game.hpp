@@ -37,12 +37,14 @@ private:
     int count = 0;
     int level = 1;
     int temp = 12;
-    int mark = 80;
+    int mark = 150;
 
     const int FPS = 60;
     const int frameDelay = 1000/FPS;
     Uint32 frameStart;
     int frameTime;
+    
+    int startGametime = 0;
     
     bool isRunning;
     bool gameOver = false;

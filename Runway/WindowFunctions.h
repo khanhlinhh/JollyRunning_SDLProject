@@ -32,14 +32,14 @@ const int SIZE_ANIMALS = 150;
 //Toạ độ x xuất hiện animals
 const int numLine = 3;
 const int Line[numLine] = {75, 145, 210};
-
+const int LineCoin[numLine] = {80, 150, 220};
 //Toạ độ của score
 const int ScoreTextGetX = 180;
 const int ScoreTextGetY = 10;
 const int ScoreGetX = 280;
 const int ScoreGetY = 10;
 
-const int scorelost = 50;
+const int scorelost = 2;
 
 const int logoSizeWidth = 150;
 const int logoSizeHeight = 150;

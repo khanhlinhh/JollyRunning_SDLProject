@@ -50,11 +50,6 @@ void Score::GetCurrentScore(SDL_Renderer *render)
     SDL_QueryTexture(TLivesCount, NULL, NULL, &livescountRect.w, &livescountRect.h);
 }
 
-void Score::GetCurrentLives()
-{
-    lives--;
-}
-
 void Score::RenderCopyScore()
 {
     SDL_RenderCopy(renderer, Text, NULL, &textRect);

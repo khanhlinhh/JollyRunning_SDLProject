@@ -13,19 +13,23 @@
 #include "Hindrances.hpp"
 #include "MenuGame.hpp"
 #include "Score.hpp"
+#include "Coins.hpp"
 
 using namespace std;
 
 Background TBackground;
 GameObject TCharacter;
 Menu menuGame;
+vector <Coins> CoinsCollect;
 
 vector<Animals> TAnimal;
 SDL_Texture *Animal1, *Animal2, *Animal3, *Animal4, *Animal5, *Animal6, *Animal7, *Animal8, *Animal9;
+SDL_Texture *CoinTexture;
 
 Score score;
 
 int randAnimal;
+int randLine;
 
 Game::Game()
 {}
@@ -72,6 +76,8 @@ void Game::init (const char *title, int xpos, int ypos, int width, int height, b
     Animal8 = TextureManager::LoadTexture(texturesheet8, renderer);
     Animal9 = TextureManager::LoadTexture(texturesheet9, renderer);
     
+    CoinTexture = TextureManager::LoadTexture("/Users/timmy/Desktop/Runway/Image/coin.png", renderer);
+    
     menuGame.RenderMenu();
     score = Score(renderer);
 }
@@ -79,7 +85,6 @@ void Game::init (const char *title, int xpos, int ypos, int width, int height, b
 void Game::Timers()
 {
     frameTime = SDL_GetTicks() - frameStart;
-            
     if (frameDelay > frameTime)
     {
         SDL_Delay(frameDelay-frameTime);
@@ -117,14 +122,23 @@ void Game::handleEvents()
         }
     }
     TCharacter.Animation();
+    if (!CoinsCollect.empty())
+    {
+        for (int i = 0; i < CoinsCollect.size(); i++)
+        {
+            CoinsCollect[i].Animation();
+        }
+    }
 }
 
 void Game::update()
 {
     if (startGame && gameOver == false)
     {
+        score.GetCurrentScore(renderer);
         menuGame.destroyStart();
         count++;
+        randLine = rand() % numLine;
         if (count == mark)
         {
             Animals ani;
@@ -163,10 +177,30 @@ void Game::update()
             count = 0;
             level++;
         }
+        if (count == 30)
+        {
+            Coins coin;
+            coin = Coins(CoinTexture ,renderer, randLine);
+            CoinsCollect.push_back(coin);
+        }
+        
+        if (!CoinsCollect.empty())
+        {
+            for (int i = 0; i < CoinsCollect.size(); i++)
+            {
+                CoinsCollect[i].Appear(TBackground.velocityBackground);
+                if (CoinsCollect[i].checkCollision(TCharacter))
+                {
+                    score.scoregame++;
+                    score.GetCurrentScore(renderer);
+                    CoinsCollect.erase(CoinsCollect.begin()+i);
+                }
+            }
+        }
         if (level == temp)
         {
-            mark--;
-            if (mark < 40) mark = 40;
+            mark -= 20;
+            if (mark < 50) mark = 50;
             level = 1;
             TBackground.velocityBackground++;
             if (TBackground.velocityBackground == maxSpeed)
@@ -177,26 +211,40 @@ void Game::update()
         
         for (int i = 0 ; i < TAnimal.size(); i++)
         {
-            //TAnimal[i].Appear(TBackground.velocityBackground);
             TAnimal[i].Appear(TBackground.velocityBackground);
             if(TAnimal[i].checkCollision(TCharacter))
             {
                 score.scoregame -= scorelost;
-                score.GetCurrentLives();
+                if (score.scoregame <= 0)
+                {
+                    score.scoregame = 0;
+                }
+                score.lives--;
                 if (score.lives < 0)
                 {
                     gameOver = true;
                 }
             }
         }
-        if (count % 2 == 0 && gameOver == false)
-        {
-            score.scoregame++;
-            score.GetCurrentScore(renderer);
-        }
+        
         if (!TAnimal.empty() && TAnimal[0].animalClipsPos.y > SCREEN_HEIGHT)
         {
             TAnimal.erase(TAnimal.begin());
+        }
+        if (!CoinsCollect.empty() && CoinsCollect[0].CoinPos.y > SCREEN_HEIGHT)
+        {
+            CoinsCollect.erase(CoinsCollect.begin());
+        }
+        if (!TAnimal.empty() && gameOver)
+        {
+            for (int i = 0 ; i < TAnimal.size(); i++)
+            {
+                TAnimal[i].destroyAnimals();
+            }
+            for (int i = 0; i < CoinsCollect.size(); i++)
+            {
+                CoinsCollect[i].destroyCoin();
+            }
         }
     }
 }
@@ -210,6 +258,13 @@ void Game::render()
         for (int i = 0 ; i < TAnimal.size(); i++)
         {
             TAnimal[i].render_Copy();
+        }
+    }
+    if (!CoinsCollect.empty())
+    {
+        for (int i = 0; i < CoinsCollect.size(); i++)
+        {
+            CoinsCollect[i].renderCopyCoin();
         }
     }
     TCharacter.renderCopy();

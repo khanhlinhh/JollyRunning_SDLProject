@@ -10,6 +10,7 @@
 		A536411326351F2200691BA9 /* MenuGame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A536411126351F2200691BA9 /* MenuGame.cpp */; };
 		A5544A472631623800CF07C2 /* Score.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5544A452631623800CF07C2 /* Score.cpp */; };
 		A55641462625884500E41C19 /* Hindrances.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A55641442625884500E41C19 /* Hindrances.cpp */; };
+		A559E6D3263C05DE00C7E0D8 /* Coins.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A559E6D1263C05DE00C7E0D8 /* Coins.cpp */; };
 		A56D41472630878000A67F61 /* libSDL2_ttf.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A56D41462630878000A67F61 /* libSDL2_ttf.dylib */; };
 		A56D41482630878000A67F61 /* libSDL2_ttf.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = A56D41462630878000A67F61 /* libSDL2_ttf.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		A5D21C312622AF1100F96186 /* ScrollingBackground.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5D21C2F2622AF1100F96186 /* ScrollingBackground.cpp */; };
@@ -55,6 +56,8 @@
 		A5544A462631623800CF07C2 /* Score.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Score.hpp; sourceTree = "<group>"; };
 		A55641442625884500E41C19 /* Hindrances.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Hindrances.cpp; sourceTree = "<group>"; };
 		A55641452625884500E41C19 /* Hindrances.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Hindrances.hpp; sourceTree = "<group>"; };
+		A559E6D1263C05DE00C7E0D8 /* Coins.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Coins.cpp; sourceTree = "<group>"; };
+		A559E6D2263C05DE00C7E0D8 /* Coins.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Coins.hpp; sourceTree = "<group>"; };
 		A5661738262435E7003DE0FE /* Image */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Image; sourceTree = "<group>"; };
 		A56D41462630878000A67F61 /* libSDL2_ttf.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libSDL2_ttf.dylib; path = ../../../../usr/local/Cellar/sdl2_ttf/2.0.15/lib/libSDL2_ttf.dylib; sourceTree = "<group>"; };
 		A5D21C2F2622AF1100F96186 /* ScrollingBackground.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollingBackground.cpp; sourceTree = "<group>"; };
@@ -115,6 +118,8 @@
 				A536411126351F2200691BA9 /* MenuGame.cpp */,
 				A5FE2ED1261F5FF300F7E265 /* Player.hpp */,
 				A5FE2ED0261F5FF300F7E265 /* Player.cpp */,
+				A559E6D2263C05DE00C7E0D8 /* Coins.hpp */,
+				A559E6D1263C05DE00C7E0D8 /* Coins.cpp */,
 				A55641452625884500E41C19 /* Hindrances.hpp */,
 				A55641442625884500E41C19 /* Hindrances.cpp */,
 				A5544A462631623800CF07C2 /* Score.hpp */,
@@ -201,6 +206,7 @@
 				A536411326351F2200691BA9 /* MenuGame.cpp in Sources */,
 				A5FE2ECB261F5F6000F7E265 /* Game.cpp in Sources */,
 				A5FE2ECE261F5FA400F7E265 /* TextureManager.cpp in Sources */,
+				A559E6D3263C05DE00C7E0D8 /* Coins.cpp in Sources */,
 				A5544A472631623800CF07C2 /* Score.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
