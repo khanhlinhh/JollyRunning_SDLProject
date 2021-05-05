@@ -122,6 +122,13 @@ void Game::handleEvents()
     {
         startGame = true;
     }
+    
+    if (keyState[SDL_SCANCODE_P] && gameOver)
+    {
+        ifStartOver = true;
+        gameOver = false;
+    }
+    
     if (keyState[SDL_SCANCODE_LEFT])
     {
         TCharacter.goLeft();
@@ -149,6 +156,22 @@ void Game::handleEvents()
 
 void Game::update()
 {
+    if (ifStartOver)
+    {
+        menuGame.destroygameStartOver();
+        Mix_PlayMusic(BackgroundSound, -1);
+        ifStartOver = false;
+        score.scoregame = 0;
+        score.lives = 3;
+        startGame = true;
+        SDL_SetTextureColorMod(TCharacter.charText, 255, 255, 255);
+        SDL_SetTextureAlphaMod(TCharacter.charText, 250);
+        TBackground.velocityBackground = 2;
+        count = 0;
+        level = 1;
+        mark = 150;
+        Mix_HaltChannel(-1);
+    }
     if (startGame && gameOver == false)
     {
         menuGame.destroyStart();
@@ -213,19 +236,19 @@ void Game::update()
             {
                 TBackground.velocityBackground = maxSpeed;
             }
-            
-            test++;
-            cout << test << endl;
+            //test++;
+            //cout << test << endl;
         }
         
         if (!CoinsCollect.empty())
         {
             if (CoinsCollect[0].checkCollision(TCharacter))
             {
-                Mix_PlayChannel(-1, CoinCollectSound, 0);
+                Mix_PlayChannel(1, CoinCollectSound, 0);
                 score.scoregame++;
                 score.GetCurrentScore(renderer);
                 CoinsCollect.erase(CoinsCollect.begin());
+                
             }
         }
         
@@ -236,7 +259,7 @@ void Game::update()
                 SDL_SetTextureColorMod(TCharacter.charText, 255, 0, 0);
                 SDL_SetTextureAlphaMod(TCharacter.charText, 70);
                 SDL_SetTextureAlphaMod(TAnimal[0].animalText, 70);
-                Mix_PlayChannel(-1, CollisionSound, 0);
+                Mix_PlayChannel(2, CollisionSound, 0);
                 score.scoregame -= scorelost;
                 if (score.scoregame <= 0)
                 {
@@ -247,6 +270,7 @@ void Game::update()
                 {
                     score.lives = 0;
                     gameOver = true;
+                    startGame = false;
                 }
             }
             else
@@ -281,25 +305,14 @@ void Game::update()
         {
             CoinsCollect.erase(CoinsCollect.begin());
         }
-        if (!TAnimal.empty() && gameOver)
-        {
-            for (int i = 0 ; i < TAnimal.size(); i++)
-            {
-                TAnimal[i].destroyAnimals();
-            }
-        }
-        if (!CoinsCollect.empty() && gameOver)
-        {
-            for (int i = 0; i < CoinsCollect.size(); i++)
-            {
-                CoinsCollect[i].destroyCoin();
-            }
-        }
+  
         if (gameOver)
         {
-            Mix_PausedMusic();
+            Mix_HaltMusic();
             score.getHighScore();
             score.printHightScore(renderer);
+            TAnimal.clear();
+            CoinsCollect.clear();
             Mix_PlayChannel(-1, GameOverSound, 0);
         }
     }
@@ -329,12 +342,14 @@ void Game::render()
     {
         menuGame.RenderGameOver();
         score.RenderHighScore();
+        menuGame.RenderGameStartOver();
     }
     score.renderCopyText();
     score.RenderCopyScore();
     
     SDL_RenderPresent(renderer);
 }
+
 void Game::clean()
 {
     SDL_DestroyWindow(window);

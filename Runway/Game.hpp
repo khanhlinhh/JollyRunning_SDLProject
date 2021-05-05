@@ -22,7 +22,6 @@ public:
     void clean();
     
     bool running() {return isRunning;};
-    bool startGame = false;
     
     const char* texturesheet1 = "/Users/timmy/Desktop/Runway/Image/Hindrances/cat.png";
     const char* texturesheet2 = "/Users/timmy/Desktop/Runway/Image/Hindrances/pig.png";
@@ -34,13 +33,15 @@ public:
     const char* texturesheet8 = "/Users/timmy/Desktop/Runway/Image/Hindrances/koala.png";
     const char* texturesheet9 = "/Users/timmy/Desktop/Runway/Image/Hindrances/cow.png";
     
+    const Uint8* keyState = SDL_GetKeyboardState(NULL);
+    
 private:
     int count = 0;
     int level = 1;
     int temp = 12;
     int mark = 150;
 
-    int test = 0;
+    //int test = 0;
     
     const int FPS = 60;
     const int frameDelay = 1000/FPS;
@@ -48,7 +49,9 @@ private:
     int frameTime;
     
     bool isRunning;
+    bool startGame = false;
     bool gameOver = false;
+    bool ifStartOver = false;
     SDL_Window *window;
     SDL_Renderer *renderer;
     SDL_Surface *surface;

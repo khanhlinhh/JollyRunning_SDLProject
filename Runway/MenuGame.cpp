@@ -42,6 +42,19 @@ Menu::Menu(SDL_Renderer* ren)
     SDL_QueryTexture(TGameOver, NULL, NULL, &GameOverRect.w, &GameOverRect.h);
     GameOverRect.x = (SCREEN_WIDTH - GameOverRect.w)/2;
     GameOverRect.y = (SCREEN_HEIGHT - GameOverRect.h)/2 - 50;
+    
+    GameOverSurface = TTF_RenderText_Solid(Fontsmall, "Press 'P' to play again", color);
+    TStartGameOver = SDL_CreateTextureFromSurface(ren, GameOverSurface);
+    gameStartOverRect.x = (SCREEN_WIDTH)/2 - 100;
+    gameStartOverRect.y = GameOverRect.y + 200;
+    
+    SDL_QueryTexture(TStartGameOver, NULL, NULL, &gameStartOverRect.w, &gameStartOverRect.h);
+    
+}
+
+void Menu::RenderGameStartOver()
+{
+    SDL_RenderCopy(renderer, TStartGameOver, NULL, &gameStartOverRect);
 }
 
 void Menu::RenderMenu()
@@ -66,4 +79,9 @@ void Menu::destroyStart()
 void Menu::destroyGameOver()
 {
     SDL_DestroyTexture(TGameOver);
+}
+
+void Menu::destroygameStartOver()
+{
+    SDL_DestroyTexture(TStartGameOver);
 }
