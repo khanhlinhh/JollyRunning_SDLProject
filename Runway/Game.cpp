@@ -88,7 +88,6 @@ void Game::init (const char *title, int xpos, int ypos, int width, int height, b
     BackgroundSound = Mix_LoadMUS( "/Users/timmy/Desktop/Runway/Sound/background music.wav");
     CoinCollectSound = Mix_LoadWAV("/Users/timmy/Desktop/Runway/Sound/coin-sound-effect.wav");
     CollisionSound = Mix_LoadWAV("/Users/timmy/Desktop/Runway/Sound/roblox-death-sound_1.wav");
-    GameStartSound = Mix_LoadWAV("/Users/timmy/Desktop/Runway/Sound/windows-7-startup.wav");
     GameOverSound = Mix_LoadWAV("/Users/timmy/Desktop/Runway/Sound/gameover.wav");
     
     if (!Mix_PlayingMusic())
@@ -356,6 +355,10 @@ void Game::clean()
     SDL_DestroyRenderer(renderer);
     window = NULL;
     renderer = NULL;
+    Mix_FreeMusic(BackgroundSound);
+    Mix_FreeChunk(CollisionSound);
+    Mix_FreeChunk(CoinCollectSound);
+    Mix_FreeChunk(GameOverSound);
     TTF_Quit();
     Mix_Quit();
     SDL_Quit();

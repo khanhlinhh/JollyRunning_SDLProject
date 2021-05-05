@@ -59,7 +59,6 @@ private:
     Mix_Music *BackgroundSound;
     Mix_Chunk *CoinCollectSound;
     Mix_Chunk *CollisionSound;
-    Mix_Chunk *GameStartSound;
     Mix_Chunk *GameOverSound;
 };
 #endif
