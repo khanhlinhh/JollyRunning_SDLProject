@@ -43,8 +43,8 @@ Menu::Menu(SDL_Renderer* ren)
     GameOverRect.x = (SCREEN_WIDTH - GameOverRect.w)/2;
     GameOverRect.y = (SCREEN_HEIGHT - GameOverRect.h)/2 - 50;
     
-    GameOverSurface = TTF_RenderText_Solid(Fontsmall, "Press 'P' to play again", color);
-    TStartGameOver = SDL_CreateTextureFromSurface(ren, GameOverSurface);
+    gameStartOverSurface = TTF_RenderText_Solid(Fontsmall, "Press 'P' to play again", color);
+    TStartGameOver = SDL_CreateTextureFromSurface(ren, gameStartOverSurface);
     gameStartOverRect.x = (SCREEN_WIDTH)/2 - 100;
     gameStartOverRect.y = GameOverRect.y + 200;
     
