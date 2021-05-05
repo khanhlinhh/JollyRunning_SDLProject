@@ -14,12 +14,9 @@ Menu::Menu(SDL_Renderer* ren)
     
     SDL_QueryTexture(TLogo, NULL, NULL, &textureWidth, &textureHeight);
     
-    LogoRect.w = textureWidth;
-    LogoRect.h = textureHeight;
-    LogoRect.x = LogoRect.y = 0;
     LogoPos.y = LogoY;
-    LogoPos.w = LogoRect.w = logoSizeWidth;
-    LogoPos.h = LogoRect.h = logoSizeHeight;
+    LogoPos.w = logoSizeWidth;
+    LogoPos.h = logoSizeHeight;
     LogoPos.x = (SCREEN_WIDTH - LogoPos.w)/2;
     
     Font = TTF_OpenFont("/Users/timmy/Desktop/Runway/CCOverbyteOff-Regular.ttf", 50);
@@ -44,12 +41,12 @@ Menu::Menu(SDL_Renderer* ren)
     
     SDL_QueryTexture(TGameOver, NULL, NULL, &GameOverRect.w, &GameOverRect.h);
     GameOverRect.x = (SCREEN_WIDTH - GameOverRect.w)/2;
-    GameOverRect.y = (SCREEN_HEIGHT - GameOverRect.h)/2;
+    GameOverRect.y = (SCREEN_HEIGHT - GameOverRect.h)/2 - 50;
 }
 
 void Menu::RenderMenu()
 {
-    SDL_RenderCopy(renderer, TLogo, &LogoRect, &LogoPos);
+    SDL_RenderCopy(renderer, TLogo, NULL, &LogoPos);
     SDL_RenderCopy(renderer, TStartgame, NULL, &StartGameRect);
     SDL_RenderCopy(renderer, TPressStart, NULL, &pressStartRect);
 }

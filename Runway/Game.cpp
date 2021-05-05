@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
 #include <cstdlib>
 #include <ctime>
 #include <vector>
@@ -38,6 +39,11 @@ Game::~Game()
 
 void Game::init (const char *title, int xpos, int ypos, int width, int height, bool fullscreen)
 {
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+   {
+       cout << "SDL_mixer could not initialize! SDL_mixer Error: " << Mix_GetError() << endl;
+   }
+    
     if (TTF_Init() < 0)
     {
         cout << "Error init TTF: " << TTF_GetError() << endl;
@@ -77,12 +83,22 @@ void Game::init (const char *title, int xpos, int ypos, int width, int height, b
     Animal9 = TextureManager::LoadTexture(texturesheet9, renderer);
     
     CoinTexture = TextureManager::LoadTexture("/Users/timmy/Desktop/Runway/Image/coin.png", renderer);
-    
-    menuGame.RenderMenu();
     score = Score(renderer);
+    
+    BackgroundSound = Mix_LoadMUS( "/Users/timmy/Desktop/Runway/Sound/background music.wav");
+    CoinCollectSound = Mix_LoadWAV("/Users/timmy/Desktop/Runway/Sound/coin-sound-effect.wav");
+    CollisionSound = Mix_LoadWAV("/Users/timmy/Desktop/Runway/Sound/roblox-death-sound_1.wav");
+    GameStartSound = Mix_LoadWAV("/Users/timmy/Desktop/Runway/Sound/windows-7-startup.wav");
+    GameOverSound = Mix_LoadWAV("/Users/timmy/Desktop/Runway/Sound/gameover.wav");
+    
+    if (!Mix_PlayingMusic())
+    {
+        Mix_PlayMusic(BackgroundSound, -1);
+    }
+    menuGame.RenderMenu();
 }
 
-void Game::Timers()
+void Game::timers()
 {
     frameTime = SDL_GetTicks() - frameStart;
     if (frameDelay > frameTime)
@@ -135,8 +151,8 @@ void Game::update()
 {
     if (startGame && gameOver == false)
     {
-        score.GetCurrentScore(renderer);
         menuGame.destroyStart();
+        score.GetCurrentScore(renderer);
         count++;
         randLine = rand() % numLine;
         if (count == mark)
@@ -177,43 +193,50 @@ void Game::update()
             count = 0;
             level++;
         }
-        if (count == 30)
+        if (count == mark/2)
         {
             Coins coin;
             coin = Coins(CoinTexture ,renderer, randLine);
             CoinsCollect.push_back(coin);
         }
         
-        if (!CoinsCollect.empty())
-        {
-            for (int i = 0; i < CoinsCollect.size(); i++)
-            {
-                CoinsCollect[i].Appear(TBackground.velocityBackground);
-                if (CoinsCollect[i].checkCollision(TCharacter))
-                {
-                    score.scoregame++;
-                    score.GetCurrentScore(renderer);
-                    CoinsCollect.erase(CoinsCollect.begin()+i);
-                }
-            }
-        }
         if (level == temp)
         {
             mark -= 20;
-            if (mark < 50) mark = 50;
+            if (mark < 50)
+            {
+                mark = 50;
+            }
             level = 1;
             TBackground.velocityBackground++;
             if (TBackground.velocityBackground == maxSpeed)
             {
                 TBackground.velocityBackground = maxSpeed;
             }
+            
+            test++;
+            cout << test << endl;
         }
         
-        for (int i = 0 ; i < TAnimal.size(); i++)
+        if (!CoinsCollect.empty())
         {
-            TAnimal[i].Appear(TBackground.velocityBackground);
-            if(TAnimal[i].checkCollision(TCharacter))
+            if (CoinsCollect[0].checkCollision(TCharacter))
             {
+                Mix_PlayChannel(-1, CoinCollectSound, 0);
+                score.scoregame++;
+                score.GetCurrentScore(renderer);
+                CoinsCollect.erase(CoinsCollect.begin());
+            }
+        }
+        
+        if (!TAnimal.empty())
+        {
+            if(TAnimal[0].checkCollision(TCharacter) && gameOver == false)
+            {
+                SDL_SetTextureColorMod(TCharacter.charText, 255, 0, 0);
+                SDL_SetTextureAlphaMod(TCharacter.charText, 70);
+                SDL_SetTextureAlphaMod(TAnimal[0].animalText, 70);
+                Mix_PlayChannel(-1, CollisionSound, 0);
                 score.scoregame -= scorelost;
                 if (score.scoregame <= 0)
                 {
@@ -222,16 +245,39 @@ void Game::update()
                 score.lives--;
                 if (score.lives < 0)
                 {
+                    score.lives = 0;
                     gameOver = true;
                 }
             }
+            else
+            {
+                SDL_SetTextureColorMod(TCharacter.charText, 255, 255, 255);
+                SDL_SetTextureAlphaMod(TCharacter.charText, 250);
+                SDL_SetTextureAlphaMod(TAnimal[0].animalText, 250);
+            }
         }
         
-        if (!TAnimal.empty() && TAnimal[0].animalClipsPos.y > SCREEN_HEIGHT)
+        if (!CoinsCollect.empty())
+        {
+            for (int i = 0; i < CoinsCollect.size(); i++)
+            {
+                CoinsCollect[i].Appear(TBackground.velocityBackground);
+            }
+        }
+        
+        if (!TAnimal.empty())
+        {
+            for (int i = 0 ; i < TAnimal.size(); i++)
+            {
+                TAnimal[i].Appear(TBackground.velocityBackground);
+            }
+        }
+        
+        if (!TAnimal.empty() && TAnimal[0].animalClipsPos.y > TCharacter.charPosition.y + SIZE_CHARACTER)
         {
             TAnimal.erase(TAnimal.begin());
         }
-        if (!CoinsCollect.empty() && CoinsCollect[0].CoinPos.y > SCREEN_HEIGHT)
+        if (!CoinsCollect.empty() && CoinsCollect[0].CoinPos.y > TCharacter.charPosition.y + SIZE_CHARACTER)
         {
             CoinsCollect.erase(CoinsCollect.begin());
         }
@@ -241,10 +287,20 @@ void Game::update()
             {
                 TAnimal[i].destroyAnimals();
             }
+        }
+        if (!CoinsCollect.empty() && gameOver)
+        {
             for (int i = 0; i < CoinsCollect.size(); i++)
             {
                 CoinsCollect[i].destroyCoin();
             }
+        }
+        if (gameOver)
+        {
+            Mix_PausedMusic();
+            score.getHighScore();
+            score.printHightScore(renderer);
+            Mix_PlayChannel(-1, GameOverSound, 0);
         }
     }
 }
@@ -272,9 +328,11 @@ void Game::render()
     if (gameOver == true)
     {
         menuGame.RenderGameOver();
+        score.RenderHighScore();
     }
     score.renderCopyText();
     score.RenderCopyScore();
+    
     SDL_RenderPresent(renderer);
 }
 void Game::clean()
@@ -284,6 +342,7 @@ void Game::clean()
     window = NULL;
     renderer = NULL;
     TTF_Quit();
+    Mix_Quit();
     SDL_Quit();
     cout << "Game cleaned!" << endl;
 }

@@ -23,7 +23,7 @@ int main (int argc, const char* argv[])
     while (game.running())
     {
         game.handleEvents();
-        game.Timers();
+        game.timers();
         game.update();
         game.render();
     }

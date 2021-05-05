@@ -11,6 +11,8 @@
 		A5544A472631623800CF07C2 /* Score.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5544A452631623800CF07C2 /* Score.cpp */; };
 		A55641462625884500E41C19 /* Hindrances.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A55641442625884500E41C19 /* Hindrances.cpp */; };
 		A559E6D3263C05DE00C7E0D8 /* Coins.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A559E6D1263C05DE00C7E0D8 /* Coins.cpp */; };
+		A5671E91263DA89A000330C3 /* libSDL2_mixer.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A5671E90263DA89A000330C3 /* libSDL2_mixer.dylib */; };
+		A5671E92263DA89A000330C3 /* libSDL2_mixer.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = A5671E90263DA89A000330C3 /* libSDL2_mixer.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		A56D41472630878000A67F61 /* libSDL2_ttf.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A56D41462630878000A67F61 /* libSDL2_ttf.dylib */; };
 		A56D41482630878000A67F61 /* libSDL2_ttf.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = A56D41462630878000A67F61 /* libSDL2_ttf.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		A5D21C312622AF1100F96186 /* ScrollingBackground.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5D21C2F2622AF1100F96186 /* ScrollingBackground.cpp */; };
@@ -41,6 +43,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				A5FE2EC4261F5EEB00F7E265 /* libSDL2.dylib in Embed Libraries */,
+				A5671E92263DA89A000330C3 /* libSDL2_mixer.dylib in Embed Libraries */,
 				A5FE2EC8261F5EF500F7E265 /* libSDL2_image.dylib in Embed Libraries */,
 				A56D41482630878000A67F61 /* libSDL2_ttf.dylib in Embed Libraries */,
 			);
@@ -59,6 +62,7 @@
 		A559E6D1263C05DE00C7E0D8 /* Coins.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Coins.cpp; sourceTree = "<group>"; };
 		A559E6D2263C05DE00C7E0D8 /* Coins.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Coins.hpp; sourceTree = "<group>"; };
 		A5661738262435E7003DE0FE /* Image */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Image; sourceTree = "<group>"; };
+		A5671E90263DA89A000330C3 /* libSDL2_mixer.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libSDL2_mixer.dylib; path = ../../../../usr/local/Cellar/sdl2_mixer/2.0.4/lib/libSDL2_mixer.dylib; sourceTree = "<group>"; };
 		A56D41462630878000A67F61 /* libSDL2_ttf.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libSDL2_ttf.dylib; path = ../../../../usr/local/Cellar/sdl2_ttf/2.0.15/lib/libSDL2_ttf.dylib; sourceTree = "<group>"; };
 		A5D21C2F2622AF1100F96186 /* ScrollingBackground.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScrollingBackground.cpp; sourceTree = "<group>"; };
 		A5D21C302622AF1100F96186 /* ScrollingBackground.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ScrollingBackground.hpp; sourceTree = "<group>"; };
@@ -81,6 +85,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5FE2EC3261F5EEB00F7E265 /* libSDL2.dylib in Frameworks */,
+				A5671E91263DA89A000330C3 /* libSDL2_mixer.dylib in Frameworks */,
 				A5FE2EC7261F5EF500F7E265 /* libSDL2_image.dylib in Frameworks */,
 				A56D41472630878000A67F61 /* libSDL2_ttf.dylib in Frameworks */,
 			);
@@ -135,6 +140,7 @@
 		A5FE2EC1261F5EEB00F7E265 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A5671E90263DA89A000330C3 /* libSDL2_mixer.dylib */,
 				A56D41462630878000A67F61 /* libSDL2_ttf.dylib */,
 				A5FE2EC6261F5EF500F7E265 /* libSDL2_image.dylib */,
 				A5FE2EC2261F5EEB00F7E265 /* libSDL2.dylib */,
@@ -337,6 +343,7 @@
 					/usr/local/Cellar/sdl2/2.0.14_1/lib,
 					/usr/local/Cellar/sdl2_image/2.0.5/lib,
 					/usr/local/Cellar/sdl2_ttf/2.0.15/lib,
+					/usr/local/Cellar/sdl2_mixer/2.0.4/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -354,6 +361,7 @@
 					/usr/local/Cellar/sdl2/2.0.14_1/lib,
 					/usr/local/Cellar/sdl2_image/2.0.5/lib,
 					/usr/local/Cellar/sdl2_ttf/2.0.15/lib,
+					/usr/local/Cellar/sdl2_mixer/2.0.4/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};

@@ -16,7 +16,7 @@ const int characterWidth = 120;
 const int characterHeight = 120;
 
 //Đặt toạ độ y nhân vật khi start game
-const int STARTING_POINT = 600;
+const int STARTING_POINT = 550;
 
 //Toạ độ cắt texture character
 const int GO_STRAIGHT = 80;

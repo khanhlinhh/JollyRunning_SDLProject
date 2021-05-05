@@ -18,7 +18,7 @@ public:
     SDL_Texture* TStartgame;
     SDL_Texture* TPressStart;
     SDL_Texture* TGameOver;
-    SDL_Rect LogoRect, StartGameRect, pressStartRect, GameOverRect;
+    SDL_Rect StartGameRect, pressStartRect, GameOverRect;
     SDL_Rect LogoPos;
     int textureWidth, textureHeight;
     TTF_Font *Font, *Fontsmall;

@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
 #include "WindowFunctions.h"
 
 class Game
@@ -14,7 +15,7 @@ public:
     
     void init (const char* title, int xpos, int ypos, int width, int height, bool fullscreen);
     
-    void Timers();
+    void timers();
     void handleEvents();
     void update();
     void render();
@@ -39,17 +40,23 @@ private:
     int temp = 12;
     int mark = 150;
 
+    int test = 0;
+    
     const int FPS = 60;
     const int frameDelay = 1000/FPS;
     Uint32 frameStart;
     int frameTime;
-    
-    int startGametime = 0;
     
     bool isRunning;
     bool gameOver = false;
     SDL_Window *window;
     SDL_Renderer *renderer;
     SDL_Surface *surface;
+    
+    Mix_Music *BackgroundSound;
+    Mix_Chunk *CoinCollectSound;
+    Mix_Chunk *CollisionSound;
+    Mix_Chunk *GameStartSound;
+    Mix_Chunk *GameOverSound;
 };
 #endif
