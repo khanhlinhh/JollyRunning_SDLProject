@@ -10,4 +10,4 @@ Trong game có những tính năng:
 - Có nhạc nền game, nhạc hiệu ứng khi thua
 - Khi chơi càng lâu tốc độ game sẽ tăng (đến 1 mức nhất định)
 - Ghi lại high score
-- Có thể chơi lại nhiều ván
+- Có thể chơi lại nhiều lần
