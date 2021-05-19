@@ -1,5 +1,12 @@
 # JollyRunning_SDLProject
 
+Video demo:https://youtu.be/-rDVxrQgUX0
+Hướng dẫn:
+- Khi chơi sẽ có random animal và đồng xu ở vị trí bất kì, người chơi phải ăn được nhiều đồng xu nhất có thể và tránh con animal.
+- Mỗi lần ăn xu được cộng 1đ.
+- Mỗi lần chơi có 3 mạng, nếu va phải animal sẽ mất 1 mạng và trừ 2đ.
+- Khi chơi được càng lâu tốc độ di chuyển sẽ càng nhanh.
+
 Tự đánh giá mức điểm bài tập lớn: 7,5 - 8,5.
 Trong game có những tính năng:
 *Sử dụng thư viện SDL làm đồ hoạ game
